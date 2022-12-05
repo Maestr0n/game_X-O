@@ -19,7 +19,7 @@ else:
     check = False
     player_1.goes(int(input(f'{player_1.name} выберите клетку (1-9)\n')))
     print(board, '\n\nНичя')
-if not check:
+if check:
     if board.win_sim == player_1.sim:
         winner = player_1.name
     else:
