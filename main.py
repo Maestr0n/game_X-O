@@ -1,3 +1,6 @@
+from colorama import Fore, Back, Style
+
+
 class Cell:
 
     def __init__(self, number_cell):
@@ -15,9 +18,12 @@ class Board:
         board[i_num] = Cell(i_num)
 
     def __repr__(self):
-        return f'| {board.board[1].sim} | {board.board[2].sim} | {board.board[3].sim} |\n'\
-               f'| {board.board[4].sim} | {board.board[5].sim} | {board.board[6].sim} |\n'\
-               f'| {board.board[7].sim} | {board.board[8].sim} | {board.board[9].sim} |'
+        return f'{Back.BLACK}{Fore.YELLOW}|{board.board[1].sim} | {board.board[2].sim} | {board.board[3].sim} |' \
+               f'{Style.RESET_ALL}\n'\
+               f'{Back.BLACK}{Fore.YELLOW}|{board.board[4].sim} | {board.board[5].sim} | {board.board[6].sim} |' \
+               f'{Style.RESET_ALL}\n'\
+               f'{Back.BLACK}{Fore.YELLOW}|{board.board[7].sim} | {board.board[8].sim} | {board.board[9].sim} |' \
+               f'{Style.RESET_ALL}\n'
 
 
 class Player:
@@ -54,27 +60,34 @@ class Player:
 
 
 board = Board()
-player_1 = Player(input('Имя первого игрока: '), board, input('\nВведет знак'))
-player_2 = Player(input('Имя второго игрока: '), board, input('\nВведет знак'))
+player_1 = Player(input(f'{Back.LIGHTBLUE_EX}{Fore.BLACK}{Style.BRIGHT}Имя первого игрока:{Style.RESET_ALL} '),
+                  board, input(f'\n{Back.LIGHTBLUE_EX}{Fore.BLACK}{Style.BRIGHT}Введет знак:{Style.RESET_ALL} '))
+
+player_2 = Player(input(f'\n{Back.LIGHTRED_EX}{Fore.BLACK}{Style.BRIGHT}Имя второго игрока:{Style.RESET_ALL} '),
+                  board, input(f'\n{Back.LIGHTRED_EX}{Fore.BLACK}{Style.BRIGHT}Введет знак:{Style.RESET_ALL} '))
 print(board)
 check = True
 for _ in range(4):
+    print(Back.RESET, Fore.RESET)
     winner = board.win_sim
-    player_1.goes(int(input(f'{player_1.name} выберите клетку (1-9)\n')))
+    player_1.goes(int(input(f'{Back.LIGHTBLUE_EX}{Fore.BLACK}{Style.BRIGHT}{player_1.name} выберите клетку (1-9)'
+                            f'{Style.RESET_ALL}\n')))
     print(board)
     if player_1.win():
         break
-    player_2.goes(int(input(f'{player_2.name} выберите клетку (1-9)\n')))
+    player_2.goes(int(input(f'{Back.LIGHTRED_EX}{Fore.BLACK}{Style.BRIGHT}{player_2.name} выберите клетку (1-9)'
+                            f'{Style.RESET_ALL}\n')))
     print(board)
     if player_2.win():
         break
 else:
     check = False
     player_1.goes(int(input(f'{player_1.name} выберите клетку (1-9)\n')))
-    print(board, '\n\nНичя')
+    print(Back.YELLOW, Fore.BLACK, board, '\n\nНичя', Style.RESET_ALL)
 if check:
     if board.win_sim == player_1.sim:
         winner = player_1.name
     else:
         winner = player_2.name
-    print('\nПобедил', str(winner).upper())
+
+    print(f'\n{Back.YELLOW}{Fore.BLACK}Победил', str(winner).upper(), Style.RESET_ALL)
